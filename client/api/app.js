@@ -167,10 +167,26 @@ app.post('/api/courses', authenticateUser, asyncHandler(async (req, res) => {
 //PUT New Info For A Course
 const titleValidationChain = check('title')
 .exists({ checkNull: true, checkFalsy: true})
-.withMessage('Please provide a title')
+.withMessage('Please provide a title.')
+.custom( value => {
+  value = value.replace(/\s/g, '');
+  if (value.length === 0) {
+    return false
+  }
+  return true
+})
+.withMessage('Please provide a valid title.')
 const descValidationChain = check('description')
 .exists({ checkNull: true, checkFalsy: true})
-.withMessage('Please provide a description')
+.withMessage('Please provide a description.')
+.custom( value => {
+  value = value.replace(/\s/g, '');
+  if (value.length === 0) {
+    return false
+  }
+  return true
+})
+.withMessage('Please provide a valid description.')
 app.put('/api/courses/:id', authenticateUser, titleValidationChain, descValidationChain, asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
 
@@ -212,7 +228,7 @@ app.put('/api/courses/:id', authenticateUser, titleValidationChain, descValidati
 //DELETE A Course From The Listing
 app.delete('/api/courses/:id', authenticateUser, asyncHandler(async (req, res, next) => {
   const course = await Course.findByPk(req.params.id);
- 
+  
   if (course) {
     await course.destroy();
     res.status(204).end();
