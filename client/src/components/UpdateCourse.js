@@ -85,7 +85,7 @@ export default class UpdateCourse extends Component {
                 <p>By {`${this.state.user.firstName} ${this.state.user.lastName}`}</p>
               </div>
               <div className="course--description">
-                <div><textarea id="description" name="description" className="" onChange={this.change} placeholder={description} defaultValue={description}>
+                <div><textarea id="description" name="description" className="" onChange={this.change} placeholder="Course Description..." defaultValue={description}>
                 </textarea></div>
               </div>
             </div>
